@@ -1,0 +1,32 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.db" 
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Card {
+  id        Int     @id @default(autoincrement())
+  bg        String?
+  name      String
+  boxes     Box[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Box {
+  id        Int     @id @default(autoincrement())
+  cardId    Int
+  type      String
+  top       String?
+  left      String?
+  width     String?
+  height    String?
+  content   String?
+  fontSize  Int?
+  maxWidth  String?
+  transform String?
+  Card      Card    @relation(fields: [cardId], references: [id], onDelete: Cascade)
+}
